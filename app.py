@@ -5,33 +5,32 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return {
-        "message": "Calculator API is running 🚀",
-        "use": "Send POST request to /calculate"
+        "message": "Calculator API running 🚀"
     }
 
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json()
 
-    num1 = float(data['num1'])
-    num2 = float(data['num2'])
-    op = data['op']
+    try:
+        num1 = float(data['num1'])
+        num2 = float(data['num2'])
+        op = data['op']
 
-    if op == '+':
-        result = num1 + num2
-    elif op == '-':
-        result = num1 - num2
-    elif op == '*':
-        result = num1 * num2
-    elif op == '/':
-        if num2 != 0:
+        if op == '+':
+            result = num1 + num2
+        elif op == '-':
+            result = num1 - num2
+        elif op == '*':
+            result = num1 * num2
+        elif op == '/':
+            if num2 == 0:
+                return jsonify({"error": "Division by zero"})
             result = num1 / num2
         else:
-            return jsonify({"error": "Division by zero"})
-    else:
-        return jsonify({"error": "Invalid operation"})
+            return jsonify({"error": "Invalid operation"})
 
-    return jsonify({"result": result})
+        return jsonify({"result": result})
 
-if __name__ == '__main__':
-    app.run()
+    except:
+        return jsonify({"error": "Invalid input"})
