@@ -2,6 +2,13 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+@app.route('/')
+def home():
+    return {
+        "message": "Calculator API is running 🚀",
+        "use": "Send POST request to /calculate"
+    }
+
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json()
@@ -20,7 +27,7 @@ def calculate():
         if num2 != 0:
             result = num1 / num2
         else:
-            return jsonify({"error": "Division by zero not allowed"})
+            return jsonify({"error": "Division by zero"})
     else:
         return jsonify({"error": "Invalid operation"})
 
