@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)   # 🔥 THIS LINE FIXES YOUR ERROR
 
 @app.route('/')
 def home():
-    return {
-        "message": "Calculator API running 🚀"
-    }
+    return {"message": "Calculator API running 🚀"}
 
 @app.route('/calculate', methods=['POST'])
 def calculate():
